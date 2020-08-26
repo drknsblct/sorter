@@ -18,13 +18,13 @@ for f in files:
     src = path + f
     try:
         if (f[-7:-4:2] == "()" and f[-6] in string_duplicates) or (f[-8:-4:3] == "()" and f[-7:-5] in string_duplicates):
-              os.remove(src) #delete duplicate file extensions (jpg, png, gif, mp4)
+              os.remove(src) #deletes duplicate file extensions (jpg, png, gif, mp4)
 
         elif (f[-8:-5:2] == "()" and f[-7] in string_duplicates) or (f[-9:-5:3] == "()" and f[-8:-6] in string_duplicates):
-            os.remove(src) #delete duplicate file extensions (jpeg, webp, webm)
+            os.remove(src) #deletes duplicate file extensions (jpeg, webp, webm)
 
         elif "copy" in f:
-            os.remove(src) #delete files containing the word "copy"
+            os.remove(src) #deletes files containing the word "copy"
 
         elif f[-3:] in image_files or f[-4:] in image_files:
             shutil.move(src, photos) #moves images to image folder
