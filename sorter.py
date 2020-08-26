@@ -2,9 +2,9 @@
 import os
 import shutil
 
-path = r"/Users/blackout/Downloads/" #program runs in this folder
-videos = r"/Users/blackout/Downloads/Media/Videos/" #path to video folder
-photos = r"/Users/blackout/Downloads/Media/Photos/" #path to image folder
+path = r"/Users/blackout/Downloads/" #program runs in this folder                   change this to your file path on MacOS/Linux
+videos = r"/Users/blackout/Downloads/Media/Videos/" #path to video folder           change this to your file path on MacOS/Linux
+photos = r"/Users/blackout/Downloads/Media/Photos/" #path to image folder           change this to your file path on MacOS/Linux
 
 files = os.listdir(path) #lists content of path folder
 
