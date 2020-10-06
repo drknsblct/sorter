@@ -20,13 +20,19 @@ for f in files:
         if (f[-7:-4:2] == "()" and f[-6] in string_duplicates) or (f[-8:-4:3] == "()" and f[-7:-5] in string_duplicates):
               os.remove(src) #deletes duplicate file extensions (jpg, png, gif, mp4)
 
+        elif (f[-12:-9:2] == "()" and f[-11] in string_duplicates) or (f[-13:-9:3] == "()" and f[-12:-10] in string_duplicates):
+            os.remove(src) #deletes jpg_orig duplicates 
+
+        elif (f[-13:-10:2] == "()" and f[-12] in string_duplicates) or (f[-14:-10:3] == "()" and f[-13:-11] in string_duplicates):
+            os.remove(src) #deletes jpg_large duplicates
+
         elif (f[-8:-5:2] == "()" and f[-7] in string_duplicates) or (f[-9:-5:3] == "()" and f[-8:-6] in string_duplicates):
             os.remove(src) #deletes duplicate file extensions (jpeg, webp, webm)
 
         elif "copy" in f:
             os.remove(src) #deletes files containing the word "copy"
 
-        elif f[-3:] in image_files or f[-4:] in image_files:
+        elif f[-3:] in image_files or f[-4:] in image_files or ("jpg_orig" in f or "jpg_large" in f):
             shutil.move(src, photos) #moves images to image folder
 
         elif f[-3:] in video_files or f[-4:] in video_files:
@@ -35,8 +41,6 @@ for f in files:
     except shutil.Error:
         pass
 print("Done!")
-
-
 
 
 
