@@ -5,6 +5,7 @@ import shutil
 path = r"/Users/blackout/Downloads/"  # program runs in this folder                   change this to your file path on MacOS/Linux
 videos = r"/Users/blackout/Downloads/Media/Videos/"  # path to video folder           change this to your file path on MacOS/Linux
 photos = r"/Users/blackout/Downloads/Media/Photos/"  # path to image folder           change this to your file path on MacOS/Linux
+pdf = r"/Users/blackout/Downloads/PDF" # path to pdf folder                           change this to your file path on MacOS/Linux
 
 files = os.listdir(path)  # lists content of path folder
 
@@ -41,13 +42,18 @@ for f in files:
 
         elif f[-3:] in video_files or f[-4:] in video_files:
             shutil.move(src, videos)  # moves videos to video folder
+        
+        elif 'pdf' in f:
+            shutil.move(src, pdf)
 
     except shutil.Error:
         pass
 
-# delete photo/video from Downloads if already in Photo/Video folder
+# delete photo/video/pdf from Downloads if already in Photo/Video folder
     try:
         if f[-3:] in image_files or f[-4:] in image_files or ("jpg_orig" in f or "jpg_large" in f) or f[-3:] in video_files or f[-4:] in video_files:
+            os.remove(src)
+        elif "pdf" in f:
             os.remove(src)
     except FileNotFoundError:
         pass
