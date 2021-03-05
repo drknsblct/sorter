@@ -45,6 +45,9 @@ for f in files:
         
         elif 'pdf' in f:
             shutil.move(src, pdf)
+        
+        elif "dmg" in f:
+            os.remove(src)
 
     except shutil.Error:
         pass
