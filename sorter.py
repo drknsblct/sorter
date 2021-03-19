@@ -48,4 +48,4 @@ for f in files:
     except FileNotFoundError:
         pass
 print('Done!')
-print(f'{count} items, {time.time() - begin :.2f} seconds')
+print(f'Time elapsed for {count} items: {time.time() - begin :.2f} seconds')
