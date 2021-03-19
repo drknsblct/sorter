@@ -15,36 +15,30 @@ files = os.listdir(path)  # lists content of path folder
 for f in files:
     src = path + f
     try:
-        if re.search('^\w+\(?\d+\)?\.(jpeg|jpg|png|webp|gif)', f):
-            os.remove(src)
-
-        elif re.search('^\w+\(?\d+\)?\.(webm|mp4|mov)', f):
-            os.remove(src)
-
-        elif 'copy' in f:
+        if 'copy' in f:
             os.remove(src)  # deletes files containing the word "copy"
 
-        elif re.search('^\w+\.(jpeg|jpg|png|webp|gif)', f):
-            shutil.move(src, photos)
+        elif re.search('^[\w+-]+\s?(\(\d+\))\.(jpeg|jpg|jpg_orig|jpg_large|png|webp|gif)$', f):
+            os.remove(src)  # deletes duplicate photos
 
-        elif re.search('^\w+\.(webm|mp4|mov)', f):
-            shutil.move(src, videos)
+        elif re.search('^[\w+-]+\s?(\(\d+\))\.(webm|mp4|mkv|mov|ts)$', f):
+            os.remove(src)  # deletes duplicate videos
+
+        elif re.search('^(.+)\.(jpeg|jpg|jpg_orig|jpg_large|png|webp|gif)$', f):
+            shutil.move(src, photos)  # moves photos to folder
+
+        elif re.search('^(.+)\.(webm|mp4|mkv|mov|ts)$', f):  # everything else
+            shutil.move(src, videos)  # moves videos to folder
 
         elif 'pdf' in f:
-            shutil.move(src, pdf)
-
-        elif "dmg" in f:
-            os.remove(src)
-
-        elif 'crdownload' in f:
-            os.remove(src)
+            shutil.move(src, pdf)  # moves pdf to folder
 
     except shutil.Error:
         pass
 
-    # delete every leftover file that isn't a folder
+    #   deletes every leftover file
     try:
-        if re.search('^\w+\.\w+\.?\w+$', f):
+        if re.search('^(.+)\.(\w+)$', f):
             os.remove(src)
     except FileNotFoundError:
         pass
