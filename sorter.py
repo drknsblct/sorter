@@ -17,7 +17,7 @@ begin = time.time()
 count = 0
 
 for f in files:
-    count+=1
+    count += 1
     src = path + f
     try:
         if 'copy' in f:
@@ -41,11 +41,12 @@ for f in files:
     except shutil.Error:
         pass
 
-    #   deletes every leftover file
+    # deletes every leftover file
     try:
         if re.search('^(.+)\.(\w+)$', f):
             os.remove(src)
     except FileNotFoundError:
         pass
+    
 print('Done!')
 print(f'Time elapsed for {count} items: {time.time() - begin :.2f} seconds')
