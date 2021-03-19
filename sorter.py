@@ -2,6 +2,7 @@
 import os
 import shutil
 import re
+import time
 
 # change these to your file path on MacOS/Linux
 
@@ -12,7 +13,11 @@ pdf = r'/Users/blackout/Downloads/PDF'  # path to pdf folder
 
 files = os.listdir(path)  # lists content of path folder
 
+begin = time.time()
+count = 0
+
 for f in files:
+    count+=1
     src = path + f
     try:
         if 'copy' in f:
@@ -43,3 +48,4 @@ for f in files:
     except FileNotFoundError:
         pass
 print('Done!')
+print(f'{count} items, {time.time() - begin :.2f} seconds')
