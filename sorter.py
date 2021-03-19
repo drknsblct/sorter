@@ -32,7 +32,7 @@ for f in files:
         elif re.search('^(.+)\.(jpeg|jpg|jpg_orig|jpg_large|png|webp|gif)$', f):
             shutil.move(src, photos)  # moves photos to folder
 
-        elif re.search('^(.+)\.(webm|mp4|mkv|mov|ts)$', f):  # everything else
+        elif re.search('^(.+)\.(webm|mp4|mkv|mov|ts)$', f): 
             shutil.move(src, videos)  # moves videos to folder
 
         elif 'pdf' in f:
