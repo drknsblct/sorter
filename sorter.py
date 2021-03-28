@@ -16,6 +16,27 @@ files = os.listdir(path)  # lists content of path folder
 begin = time.time()
 count = 0
 
+folders = [videos, photos]
+
+
+# Creates/deletes folders in courses filepath
+def create_delete_folders(folders):
+    try:
+        for x in range(len(folders)):
+            shutil.rmtree(folders[x])
+    except FileNotFoundError:
+        pass
+
+    try:
+        for x in range(len(folders)):
+            os.mkdir(folders[x])
+    except OSError:
+        pass
+
+
+create_delete_folders(folders)
+
+
 for f in files:
     count += 1
     src = path + f
@@ -32,7 +53,7 @@ for f in files:
         elif re.search('^(.+)\.(jpeg|jpg|jpg_orig|jpg_large|png|webp|gif)$', f):
             shutil.move(src, photos)  # moves photos to folder
 
-        elif re.search('^(.+)\.(webm|mp4|mkv|mov|ts)$', f):  # everything else
+        elif re.search('^(.+)\.(webm|mp4|mkv|mov|ts)$', f): 
             shutil.move(src, videos)  # moves videos to folder
 
         elif 'pdf' in f:
@@ -49,4 +70,4 @@ for f in files:
         pass
     
 print('Done!')
-print(f'Time elapsed for {count} items: {time.time() - begin :.2f} seconds')
+print(f'Time elapsed for {count-4} items: {time.time() - begin :.2f} seconds')
