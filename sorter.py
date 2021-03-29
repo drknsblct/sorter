@@ -19,14 +19,8 @@ count = 0
 folders = [videos, photos]
 
 
-# Creates/deletes folders in courses filepath
-def create_delete_folders(folders):
-    try:
-        for x in range(len(folders)):
-            shutil.rmtree(folders[x])
-    except FileNotFoundError:
-        pass
-
+# Creates folders in courses filepath
+def create_folders(folders):
     try:
         for x in range(len(folders)):
             os.mkdir(folders[x])
@@ -34,7 +28,7 @@ def create_delete_folders(folders):
         pass
 
 
-create_delete_folders(folders)
+create_folders(folders)
 
 
 for f in files:
@@ -71,3 +65,4 @@ for f in files:
     
 print('Done!')
 print(f'Time elapsed for {count-4} items: {time.time() - begin :.2f} seconds')
+#4 is number of folders currently in downloads directory + DS_Store
