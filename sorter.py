@@ -50,7 +50,7 @@ for f in files:
         elif re.search('^(.+)\.(webm|mp4|mkv|mov|ts)$', f): 
             shutil.move(src, videos)  # moves videos to folder
 
-        elif 'pdf' in f:
+        elif 'pdf' in f or 'epub' in f:
             shutil.move(src, pdf)  # moves pdf to folder
 
     except shutil.Error:
