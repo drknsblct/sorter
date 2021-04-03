@@ -29,7 +29,7 @@ def create_folders(folders):
 
 
 create_folders(folders)
-
+directories = sum(os.path.isdir(os.path.join(path, i)) for i in os.listdir(path))
 
 for f in files:
     count += 1
@@ -47,7 +47,7 @@ for f in files:
         elif re.search('^(.+)\.(jpeg|jpg|jpg_orig|jpg_large|png|webp|gif)$', f):
             shutil.move(src, photos)  # moves photos to folder
 
-        elif re.search('^(.+)\.(webm|mp4|mkv|mov|ts)$', f): 
+        elif re.search('^(.+)\.(webm|mp4|mkv|mov|ts)$', f):
             shutil.move(src, videos)  # moves videos to folder
 
         elif 'pdf' in f or 'epub' in f:
@@ -62,7 +62,6 @@ for f in files:
             os.remove(src)
     except FileNotFoundError:
         pass
-    
-print('Done!')
-print(f'Time elapsed for {count-4} items: {time.time() - begin :.2f} seconds')
-#4 is number of folders currently in downloads directory + DS_Store
+
+print(f'Time elapsed for {(count - 1) - directories} items: {time.time() - begin :.2f} seconds')
+# 1 is for .DS_Store file
