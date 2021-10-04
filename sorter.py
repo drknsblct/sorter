@@ -15,43 +15,49 @@ files = os.listdir(path)  # lists content of path folder
 
 begin = time.time()
 count = 0
+deleted = 0
 
-folders = [videos, photos]
+try:
+    os.makedirs(photos, exist_ok=True)
+    os.mkdir(videos)
+except OSError:
+    pass
 
+# create pdf
+try:
+    os.mkdir(pdf)
+except OSError:
+    pass
 
-# Creates folders in courses filepath
-def create_folders(folders):
-    try:
-        for x in range(len(folders)):
-            os.mkdir(folders[x])
-    except OSError:
-        pass
-
-
-create_folders(folders)
+# count number of directories in specified path
 directories = sum(os.path.isdir(os.path.join(path, i)) for i in os.listdir(path))
 
 for f in files:
-    count += 1
     src = path + f
     try:
         if 'copy' in f:
             os.remove(src)  # deletes files containing the word "copy"
+            deleted += 1
 
         elif re.search('^[\w+-]+\s?(\(\d+\))\.(jpeg|jpg|jpg_orig|jpg_large|png|webp|gif)$', f):
             os.remove(src)  # deletes duplicate photos
+            deleted += 1
 
         elif re.search('^[\w+-]+\s?(\(\d+\))\.(webm|mp4|mkv|mov|ts)$', f):
             os.remove(src)  # deletes duplicate videos
+            deleted += 1
 
         elif re.search('^(.+)\.(jpeg|jpg|jpg_orig|jpg_large|png|webp|gif)$', f):
             shutil.move(src, photos)  # moves photos to folder
+            count += 1
 
         elif re.search('^(.+)\.(webm|mp4|mkv|mov|ts)$', f):
             shutil.move(src, videos)  # moves videos to folder
+            count += 1
 
         elif 'pdf' in f or 'epub' in f:
             shutil.move(src, pdf)  # moves pdf to folder
+            count += 1
 
     except shutil.Error:
         pass
@@ -63,5 +69,7 @@ for f in files:
     except FileNotFoundError:
         pass
 
-print(f'Time elapsed for {(count - 1) - directories} items: {time.time() - begin :.2f} seconds')
-# 1 is for .DS_Store file
+print(f'Time elapsed for {count} items: {time.time() - begin :.2f} seconds')
+
+if deleted > 0:
+    print(f'Items deleted: {deleted}')
