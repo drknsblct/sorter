@@ -23,7 +23,7 @@ try:
 except OSError:
     pass
 
-# create pdf
+# create pdf folder
 try:
     os.mkdir(pdf)
 except OSError:
