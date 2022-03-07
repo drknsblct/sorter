@@ -51,7 +51,7 @@ for f in files:
             shutil.move(src, photos)  # moves photos to folder
             count += 1
 
-        elif re.search('^(.+)\.(webm|mp4|mkv|mov|ts)$', f):
+        elif re.search('^(.+)\.(webm|mp4|mkv|mov|ts|wmv)$', f):
             shutil.move(src, videos)  # moves videos to folder
             count += 1
 
