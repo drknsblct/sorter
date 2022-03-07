@@ -43,7 +43,7 @@ for f in files:
             os.remove(src)  # deletes duplicate photos
             deleted += 1
 
-        elif re.search('^[\w+-]+\s?(\(\d+\))\.(webm|mp4|mkv|mov|ts)$', f):
+        elif re.search('^[\w+-]+\s?(\(\d+\))\.(webm|mp4|mkv|mov|ts|wmv)$', f):
             os.remove(src)  # deletes duplicate videos
             deleted += 1
 
