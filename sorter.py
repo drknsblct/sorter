@@ -17,17 +17,10 @@ begin = time.time()
 count = 0
 deleted = 0
 
-try:
-    os.makedirs(photos, exist_ok=True)
-    os.mkdir(videos)
-except OSError:
-    pass
-
-# create pdf folder
-try:
-    os.mkdir(pdf)
-except OSError:
-    pass
+# create folders and skip if they already exist
+os.makedirs(photos, exist_ok=True)
+os.makedirs(videos, exist_ok=True)
+os.makedirs(pdf, exist_ok=True)
 
 # count number of directories in specified path
 directories = sum(os.path.isdir(os.path.join(path, i)) for i in os.listdir(path))
