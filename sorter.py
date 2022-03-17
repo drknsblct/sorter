@@ -16,6 +16,8 @@ files = os.listdir(path)  # lists content of path folder
 begin = time.time()
 count = 0
 deleted = 0
+photo_files = '^[\w+-]+\s?(\(\d+\))\.(jpeg|jpg|jpg_orig|jpg_large|png|webp|gif)$'
+video_files = '^[\w+-]+\s?(\(\d+\))\.(webm|mp4|mkv|mov|ts|wmv)$'
 
 # create folders and skip if they already exist
 os.makedirs(photos, exist_ok=True)
@@ -32,19 +34,19 @@ for f in files:
             os.remove(src)  # deletes files containing the word "copy"
             deleted += 1
 
-        elif re.search('^[\w+-]+\s?(\(\d+\))\.(jpeg|jpg|jpg_orig|jpg_large|png|webp|gif)$', f):
+        elif re.search(photo_files, f):
             os.remove(src)  # deletes duplicate photos
             deleted += 1
 
-        elif re.search('^[\w+-]+\s?(\(\d+\))\.(webm|mp4|mkv|mov|ts|wmv)$', f):
+        elif re.search(video_files, f):
             os.remove(src)  # deletes duplicate videos
             deleted += 1
 
-        elif re.search('^(.+)\.(jpeg|jpg|jpg_orig|jpg_large|png|webp|gif)$', f):
+        elif re.search(photo_files, f):
             shutil.move(src, photos)  # moves photos to folder
             count += 1
 
-        elif re.search('^(.+)\.(webm|mp4|mkv|mov|ts|wmv)$', f):
+        elif re.search(video_files, f):
             shutil.move(src, videos)  # moves videos to folder
             count += 1
 
