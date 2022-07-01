@@ -52,7 +52,7 @@ for f in files:
             shutil.move(src, videos_folder)  # moves videos_folder to folder
             count += 1
 
-        elif 'pdf_folder' in f or 'epub' in f:
+        elif 'pdf' in f or 'epub' in f:
             shutil.move(src, pdf_folder)  # moves pdf_folder to folder
             count += 1
 
