@@ -38,7 +38,8 @@ for folder in folder_paths.values():
     os.makedirs(folder, exist_ok=True)
 
 # Count the number of directories in the specified path
-directories = sum(os.path.isdir(os.path.join(path, i)) for i in os.listdir(path))
+directories = sum(os.path.isdir(os.path.join(path, i))
+                  for i in os.listdir(path))
 
 # Iterate through the files in the directory
 for f in files:
@@ -74,4 +75,3 @@ print(f'Time elapsed for {count} items: {time.time() - begin :.2f} seconds')
 # Print the number of deleted items, if any
 if deleted > 0:
     print(f'Items deleted: {deleted}')
-
