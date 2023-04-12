@@ -4,69 +4,74 @@ import shutil
 import re
 import time
 
-# change these to your file path on MacOS/Linux
+# Set folder paths
+path = r'/Users/blackout/Downloads/'
+media_folder = r'/Users/blackout/Downloads/Media/'
+videos_folder = os.path.join(media_folder, 'Videos/')
+photos_folder = os.path.join(media_folder, 'Photos/')
+pdf_folder = r'/Users/blackout/Downloads/PDF/'
 
-path = r'/Users/blackout/Downloads/'  # program runs in this folder
-videos_folder = r'/Users/blackout/Downloads/Media/Videos/'  # path to video folder
-photos_folder = r'/Users/blackout/Downloads/Media/Photos/'  # path to image folder
-pdf_folder = r'/Users/blackout/Downloads/PDF'  # path to pdf_folder folder
+# Get a list of files in the specified directory
+files = os.listdir(path)
 
-files = os.listdir(path)  # lists content of path folder
-
+# Initialize counters and start the timer
 begin = time.time()
 count = 0
 deleted = 0
-photos = '^(.+)\.(jpeg|jpg|jpg_orig|jpg_large|png|webp|gif)$'
-videos = '^(.+)\.(webm|mp4|mkv|mov|ts|wmv)$'
-duplicate_photos = '^[\w+-]+\s?(\(\d+\))\.(jpeg|jpg|jpg_orig|jpg_large|png|webp|gif)$'
-duplicate_videos = '^[\w+-]+\s?(\(\d+\))\.(webm|mp4|mkv|mov|ts|wmv)$'
 
-# create folders and skip if they already exist
-os.makedirs(photos_folder, exist_ok=True)
-os.makedirs(videos_folder, exist_ok=True)
-os.makedirs(pdf_folder, exist_ok=True)
+# Define regex patterns for file types
+file_patterns = {
+    'photos': re.compile(r'^(.+)\.(?:jpeg|jpg(?:_orig|_large)?|png|webp|gif)$'),
+    'videos': re.compile(r'^(.+)\.(?:webm|mp4|mkv|mov|ts|wmv)$'),
+    'duplicates': re.compile(r'^[\w+-]+\s?(\(\d+\))\.(?:jpeg|jpg(?:_orig|_large)?|png|webp|gif|webm|mp4|mkv|mov|ts|wmv)$'),
+}
 
-# count number of directories in specified path
+# Define target folders for different file types
+folder_paths = {
+    'photos': photos_folder,
+    'videos': videos_folder,
+    'pdfs': pdf_folder,
+}
+
+# Create folders if they do not exist
+for folder in folder_paths.values():
+    os.makedirs(folder, exist_ok=True)
+
+# Count the number of directories in the specified path
 directories = sum(os.path.isdir(os.path.join(path, i)) for i in os.listdir(path))
 
+# Iterate through the files in the directory
 for f in files:
-    src = path + f
+    src = os.path.join(path, f)
+
     try:
-        if 'copy' in f:
-            os.remove(src)  # deletes files containing the word "copy"
-            deleted += 1
-
-        elif re.search(duplicate_photos, f):
-            os.remove(src)  # deletes duplicate photos_folder
-            deleted += 1
-
-        elif re.search(duplicate_videos, f):
-            os.remove(src)  # deletes duplicate videos_folder
-            deleted += 1
-
-        elif re.search(photos, f):
-            shutil.move(src, photos_folder)  # moves photos_folder to folder
-            count += 1
-
-        elif re.search(videos, f):
-            shutil.move(src, videos_folder)  # moves videos_folder to folder
-            count += 1
-
-        elif 'pdf_folder' in f or 'epub' in f:
-            shutil.move(src, pdf_folder)  # moves pdf_folder to folder
-            count += 1
-
-    except shutil.Error:
-        pass
-
-    # deletes every leftover file
-    try:
-        if re.search('^(.+)\.(\w+)$', f):
+        # Remove files containing 'copy' or matching duplicate patterns
+        if 'copy' in f or file_patterns['duplicates'].search(f):
             os.remove(src)
-    except FileNotFoundError:
+            deleted += 1
+
+        # If the file isn't a duplicate, move it to the appropriate folder
+        else:
+            for filetype, pattern in file_patterns.items():
+                if pattern.search(f):
+                    shutil.move(src, folder_paths[filetype])
+                    count += 1
+                    break
+
+            # Move PDFs and EPUBs to their designated folder
+            else:
+                if 'pdf' in f or 'epub' in f:
+                    shutil.move(src, pdf_folder)
+                    count += 1
+
+    # Handle errors and file not found exceptions
+    except (shutil.Error, FileNotFoundError):
         pass
 
+# Print the summary of the operation
 print(f'Time elapsed for {count} items: {time.time() - begin :.2f} seconds')
 
+# Print the number of deleted items, if any
 if deleted > 0:
     print(f'Items deleted: {deleted}')
+
